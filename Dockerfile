@@ -8,10 +8,8 @@ RUN apt-get update
 RUN apt-get -y install postgresql-client
 
 RUN go mod download
-RUN go build -o app ./app/cmd/main.go
+RUN go build -o backeng-golang ./backend/cmd/main.go
 
-RUN chmod +x /app/scripts/wait_for_postgres.sh
+RUN chmod +x scripts/wait-for-postgres.sh
 
-EXPOSE 8081
-
-CMD ["./app"]
+CMD ["./backeng-golang"]

@@ -20,20 +20,19 @@ services:
     networks:
       - hacknet
 
-  app:
+  backend:
     build: ./
     environment:
       - CONFIG_PATH=${CONFIG_PATH}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_USER=${DB_USER}
       - DB_NAME=${DB_NAME}
+    command: ./scripts/wait-for-postgres.sh db ./backeng-golang
     depends_on:
       - db
       - redis
     ports:
       - 8081:8081
-    entrypoint:
-      ["./scripts/wait_for_postgres.sh", "db", "./app"]
     networks:
       - hacknet
 
