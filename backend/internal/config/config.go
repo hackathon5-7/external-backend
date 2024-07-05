@@ -35,20 +35,23 @@ type RedisConfig struct {
 	TTL  int    `yaml:"ttl"`
 }
 
+// MustLoad loads the configuration from the specified file path.
+// It returns a pointer to the loaded configuration.
+// If the file path is empty or the file does not exist, it panics.
 func MustLoad() *Config {
-	configPath := os.Getenv("CONFIG_PATH")
-	if configPath == "" {
-		log.Fatalf("CONFIG_PATH IS NOT SET")
+	configFilePath := os.Getenv("CONFIG_PATH")
+	if configFilePath == "" {
+		log.Panic("CONFIG_PATH is not set")
 	}
 
-	if _, err := os.Stat(configPath); err != nil {
-		log.Fatalf("not found %s", configPath)
+	if _, err := os.Stat(configFilePath); err != nil {
+		log.Panicf("config file %s does not exist", configFilePath)
 	}
 
-	var cfg Config
-	if err := cleanenv.ReadConfig(configPath, &cfg); err != nil {
-		log.Fatalf("%s", err)
+	config := &Config{}
+	if err := cleanenv.ReadConfig(configFilePath, config); err != nil {
+		log.Panicf("failed to load config: %v", err)
 	}
 
-	return &cfg
+	return config
 }
