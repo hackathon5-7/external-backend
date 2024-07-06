@@ -33,3 +33,4 @@ This repository is part of a larger ecosystem with the following components:
 - **Frontend**: [Frontend Repository](https://github.com/your-organization/frontend)
 - **Database**: Utilizes PostgreSQL for data storage.
 - **Internal Services + ML**: [Internal Backend Repository](https://github.com/hackathon5-7/internal-backend-ml/tree/dev)
+
