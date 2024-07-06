@@ -1,13 +1,11 @@
 package handler
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
-
 
 // InitRoutes initializes the routes for the handler.
 // It returns a *gin.Engine representing the root router.
@@ -17,8 +15,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	// Configure CORS.
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://localhost:3000"},
-		AllowMethods:     []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
+		AllowAllOrigins:  true,
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Authorization", "Content-Type"},
 		AllowCredentials: true,
 		MaxAge:           24 * time.Hour,
