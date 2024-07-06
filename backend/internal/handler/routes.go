@@ -8,12 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
 // InitRoutes initializes the routes for the handler.
-//
 // It returns a *gin.Engine representing the root router.
 func (h *Handler) InitRoutes() *gin.Engine {
 	// Create a new gin router.
-	router := gin.New()
+	router := gin.New() // Create a new gin router.
+
+	// Configure CORS.
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://localhost:3000"},
 		AllowMethods:     []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
@@ -32,10 +34,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			sectors := external.Group("/sectors")
 			{
 				// Add a GET route to retrieve all sectors.
-				sectors.GET("/", h.GetAllSectors)
+				sectors.GET("/", h.GetAllSectors) // Retrieve all sectors.
 
 				// Add a POST route to get sector recommendations.
-				sectors.POST("/recom/", h.GetRecomendation)
+				sectors.POST("/recom/", h.GetRecomendation) // Get sector recommendations.
 			}
 		}
 	}
