@@ -1,8 +1,19 @@
+CREATE TABLE sectors(
+    sector_id SERIAL PRIMARY KEY,
+    x_max DECIMAL(8, 2),
+    x_min DECIMAL(8, 2),
+    y_max DECIMAL(8, 2),
+    y_min DECIMAL(8, 2)
+);
+
 CREATE TABLE billboards(
     billboard_id SERIAL PRIMARY KEY,
-    lat VARCHAR(255) NOT NULL,
-    lon VARCHAR(255) NOT NULL,
-    azimuth VARCHAR(255) NOT NULL
+    sector_id INT NOT NULL,
+    lat DECIMAL(8, 2) NOT NULL,
+    lon DECIMAL(8, 2) NOT NULL,
+    azimuth INT NOT NULL,
+
+    FOREIGN KEY(sector_id) REFERENCES sectors(sector_id) ON DELETE CASCADE
 );
 
 CREATE TABLE requests(

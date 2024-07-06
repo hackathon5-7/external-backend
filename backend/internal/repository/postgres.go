@@ -12,6 +12,7 @@ const (
 	tableBillboards = "billboards"
 	tableUsers      = "users"
 	tableRequest    = "requests"
+	tableSectors    = "sectors"
 )
 
 // NewPostrgesDb creates a new PostgreSQL database connection.

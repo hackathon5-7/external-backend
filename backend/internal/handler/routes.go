@@ -9,9 +9,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		external := api.Group("/external")
 		{
-			sectors := external.Group("/points")
+			sectors := external.Group("/sectors")
 			{
-				sectors.GET("/", h.GetAllPoints)
+				sectors.GET("/", h.GetAllSectors)
 				sectors.GET("/rec/", h.GetRecomendation)
 			}
 		}

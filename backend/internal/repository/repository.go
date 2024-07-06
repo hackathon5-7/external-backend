@@ -11,6 +11,14 @@ type StorageBillboard interface {
 	GetBillboardById(id int64) (models.Billboard, error)
 	DeleteBillboardById(id int64) error
 	GetAllBillboards() ([]models.Billboard, error)
+	GetSizeStorageBillboards() (int, error)
+	GetBillboardsBySectorId(sectorId int, limit int) ([]models.Billboard, error)
+}
+
+type StorageSectors interface {
+	AddSector(point models.Sector) (int64, error)
+	GetSectorForCoordinate(coordinate models.Billboard) (int, error)
+	GetSizeStorageSectors() (int, error)
 }
 
 type StorageRequestsToTheModel interface {
@@ -21,11 +29,13 @@ type StorageRequestsToTheModel interface {
 type Repository struct {
 	StorageBillboard
 	StorageRequestsToTheModel
+	StorageSectors
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		StorageBillboard:          NewStorageBillboardPostgres(db),
 		StorageRequestsToTheModel: NewStorageRequestsToTheModelPostgres(db),
+		StorageSectors:            NewStorageSectorsPostgres(db),
 	}
 }
