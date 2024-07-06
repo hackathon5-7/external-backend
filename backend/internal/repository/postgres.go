@@ -10,6 +10,8 @@ import (
 
 const (
 	tableBillboards = "billboards"
+	tableUsers      = "users"
+	tableRequest    = "requests"
 )
 
 // NewPostrgesDb creates a new PostgreSQL database connection.

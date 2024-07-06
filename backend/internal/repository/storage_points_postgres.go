@@ -68,3 +68,33 @@ func (r StorageBillboardPostgres) DeleteBillboardById(id int64) error {
 	// Return any error that occurred during the deletion.
 	return err
 }
+
+// GetAllBillboards retrieves all billboards from the database.
+//
+// Returns a slice of Billboard structs and an error if there was any issue.
+func (r StorageBillboardPostgres) GetAllBillboards() ([]models.Billboard, error) {
+	// Create a query to select all billboards from the table.
+	query := fmt.Sprintf("SELECT * FROM %s", tableBillboards)
+
+	// Execute the query and get the result set.
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Create a slice to hold the retrieved billboards.
+	var billboards []models.Billboard
+
+	// Loop through the result set and scan each row into a Billboard struct.
+	for rows.Next() {
+		var billboard models.Billboard
+		if err := rows.Scan(&billboard.BillboardId, &billboard.Lat, &billboard.Lon, &billboard.Azimuth); err != nil {
+			return nil, err
+		}
+		billboards = append(billboards, billboard)
+	}
+
+	// Return the retrieved billboards and any error that occurred.
+	return billboards, nil
+}

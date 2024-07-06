@@ -2,10 +2,15 @@ package main
 
 import (
 	"app/backend/internal/config"
-	"app/backend/internal/models"
+	"app/backend/internal/handler"
 	"app/backend/internal/repository"
-	"fmt"
+	"app/backend/internal/server"
+	"app/backend/internal/service"
+	"context"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -24,17 +29,26 @@ func main() {
 	_ = rc
 
 	repos := repository.NewRepository(db)
+	service := service.NewService(repos)
+	handler := handler.NewHandler(service)
 
-	id, err := repos.StorageBillboard.AddBillboard(models.Billboard{
-		Lat:     "5243.52",
-		Lon:     "14343.41",
-		Azimuth: "90",
-	})
+	srv := new(server.Server)
+	go func() {
+		if err := srv.Run(cfg.HTTPServer.Port, handler.InitRoutes()); err != nil {
+			log.Fatalf("failed to run http server: %s", err)
+		}
+	}()
 
-	fmt.Println(err)
-	fmt.Println(id)
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
 
-	err = repos.DeleteBillboardById(5)
+	log.Print("shutdown server")
+	if err := srv.Shutdown(context.Background()); err != nil {
+		log.Fatalf("failed to shutdown: %s", err)
+	}
 
-	fmt.Println(err)
+	if err := db.Close(); err != nil {
+		log.Fatalf("%s", err)
+	}
 }

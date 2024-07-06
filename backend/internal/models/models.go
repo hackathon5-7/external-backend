@@ -1,7 +1,7 @@
 package models
 
 type Billboard struct {
-	BillboardId string `json:"-" db:"billboard_id"`
+	BillboardId string `json:"billboard_id" db:"billboard_id"`
 	Lat         string `json:"lat" db:"lat"`
 	Lon         string `json:"lon" db:"lon"`
 	Azimuth     string `json:"azimuth" db:"azimuth"`
@@ -16,6 +16,11 @@ type Request struct {
 	IncomeB       bool   `json:"income_b" db:"income_b"`
 	IncomeC       bool   `json:"income_c" db:"income_c"`
 	NameBillboard string `json:"name_billboard" db:"name_billboard"`
-	UserId        int    `json:"user_id" db:"user_id"`
-	BillboardId   int    `json:"billboard_id" db:"billboard_id"`
+}
+
+type RequestBillboard struct {
+	RequestsBillboardsId int    `json:"-" db:"requests_billboards_id"`
+	RequestId            int    `json:"request_id" db:"request_id"`
+	BillboardId          int    `json:"billboard_id" db:"billboard_id"`
+	Value                string `json:"value" db:"value"`
 }
