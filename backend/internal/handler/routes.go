@@ -12,7 +12,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			sectors := external.Group("/sectors")
 			{
 				sectors.GET("/", h.GetAllSectors)
-				sectors.GET("/rec/", h.GetRecomendation)
+				sectors.POST("/recom/", h.GetRecomendation)
 			}
 		}
 	}
