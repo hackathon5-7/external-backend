@@ -42,30 +42,28 @@ func (h *Handler) GetAllSectors(c *gin.Context) {
 	c.JSON(http.StatusOK, sectors)
 }
 
-<<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>>
-+
-+// GetRecomendation handles the request for sector recommendations.
-+// It binds the request body to a RecomendationInput struct,
-+// calls the service to get the recommendations, and returns the result as a JSON response.
-+// If there is an error, it returns a 400 or 500 status code with the corresponding error message.
- func (h *Handler) GetRecomendation(c *gin.Context) {
-+	// Bind the request body to a RecomendationInput struct.
- 	var input RecomendationInput
- 	if err := c.ShouldBindJSON(&input); err != nil {
-+		// If there was an error, return a 400 status code with the error message.
- 		newErrorResponse(c, http.StatusBadRequest, err.Error())
- 		return
- 	}
- 
-+	// Call the service to get the sector recommendations.
- 	arr, err := h.service.GetRecomendation()
- 	if err != nil {
-+		// If there was an error, return a 500 status code with the error message.
- 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
- 		return
- 	}
- 
-+	// Return a 200 status code with the recommendations as a JSON response.
- 	c.JSON(http.StatusOK, arr)
- }
-<<<<<<<  08922ae6-100c-47a0-962b-821ad60f2ac4  >>>>>>>
+
+// GetRecomendation handles the request for sector recommendations.
+// It binds the request body to a RecomendationInput struct,
+// calls the service to get the recommendations, and returns the result as a JSON response.
+// If there is an error, it returns a 400 or 500 status code with the corresponding error message.
+func (h *Handler) GetRecomendation(c *gin.Context) {
+	// Bind the request body to a RecomendationInput struct.
+	var input RecomendationInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		// If there was an error, return a 400 status code with the error message.
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	// Call the service to get the sector recommendations.
+	arr, err := h.service.GetRecomendation()
+	if err != nil {
+		// If there was an error, return a 500 status code with the error message.
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	// Return a 200 status code with the recommendations as a JSON response.
+	c.JSON(http.StatusOK, arr)
+}
