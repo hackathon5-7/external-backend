@@ -21,7 +21,9 @@ func main() {
 		log.Fatalf("failed to connect to redis: %s", err)
 	}
 
-	repos := repository.NewRepository(db, rc)
+	_ = rc
+
+	repos := repository.NewRepository(db)
 
 	id, err := repos.StorageBillboard.AddBillboard(models.Billboard{
 		Lat:     "5243.52",
