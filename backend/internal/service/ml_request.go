@@ -112,7 +112,7 @@ func (s MLRequestService) GetRecomendation(input RecomendationInput) ([]Recomend
 		}
 
 		// Make an HTTP POST request to the "denis" endpoint with the JSON data
-		resp, err := http.Post("http://localhost:8000/api/internal/get_place/", "application/json", bytes.NewBuffer(jsonData))
+		resp, err := http.Post("http://backend_python:8000/api/internal/get_place/", "application/json", bytes.NewBuffer(jsonData))
 		if err != nil {
 			return nil, err
 		}
