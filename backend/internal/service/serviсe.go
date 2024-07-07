@@ -26,7 +26,7 @@ type SectorParser interface {
 }
 
 type MLRequest interface {
-	GetRecomendation() ([]RecomendationOutput, error)
+	GetRecomendation(input RecomendationInput) ([]RecomendationOutput, error)
 }
 
 type Service struct {

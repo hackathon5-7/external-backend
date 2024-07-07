@@ -1,29 +1,12 @@
 package handler
 
 import (
+	"app/backend/internal/service"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 )
-
-type RecomendationInput struct {
-	Filters Filters `json:"filters" binding:"required"`
-}
-
-type Filters struct {
-	AgeFrom  int         `json:"ageFrom" binding:"required"`
-	AgeTo    int         `json:"ageTo" binding:"required"`
-	Gender   string      `json:"gender" binding:"required"`
-	Income   IncomeInput `json:"income" binding:"required"`
-	Quantity int         `json:"quantity" binding:"required"`
-}
-
-type IncomeInput struct {
-	A bool `json:"a" binding:"required"`
-	B bool `json:"b" binding:"required"`
-	C bool `json:"c" binding:"required"`
-}
 
 // GetAllSectors retrieves all sectors from the service and returns them as JSON.
 // If there is an error, it returns a 500 status code with the error message.
@@ -42,14 +25,13 @@ func (h *Handler) GetAllSectors(c *gin.Context) {
 	c.JSON(http.StatusOK, sectors)
 }
 
-
 // GetRecomendation handles the request for sector recommendations.
 // It binds the request body to a RecomendationInput struct,
 // calls the service to get the recommendations, and returns the result as a JSON response.
 // If there is an error, it returns a 400 or 500 status code with the corresponding error message.
 func (h *Handler) GetRecomendation(c *gin.Context) {
 	// Bind the request body to a RecomendationInput struct.
-	var input RecomendationInput
+	var input service.RecomendationInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		// If there was an error, return a 400 status code with the error message.
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -57,7 +39,7 @@ func (h *Handler) GetRecomendation(c *gin.Context) {
 	}
 
 	// Call the service to get the sector recommendations.
-	arr, err := h.service.GetRecomendation()
+	arr, err := h.service.GetRecomendation(input)
 	if err != nil {
 		// If there was an error, return a 500 status code with the error message.
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
