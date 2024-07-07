@@ -12,6 +12,7 @@ services:
       - 5432:5432
     networks:
       - hackaton_hacknet
+      - hackaton_local
 
   redis:
     image: redis:alpine
@@ -19,6 +20,7 @@ services:
       - 6379:6379
     networks:
       - hackaton_hacknet
+      - hackaton_local
 
   backend:
     build: ./
@@ -38,6 +40,7 @@ services:
       - 8081:8081
     networks:
       - hackaton_hacknet
+      - hackaton_local
 
   backend_python:
     build: ./internal-backend-ml
@@ -54,4 +57,6 @@ services:
 
 networks:
   hackaton_hacknet:
+    external: true
+  hackaton_local:
     driver: bridge
