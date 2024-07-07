@@ -2,6 +2,14 @@
 
 This repository contains the Go-based backend for our project. It is designed to handle various backend functionalities including API endpoints, data processing, and integration with other components of the system.
 
+## Start
+
+```sh
+docker-compose up —build -d
+chmod +x /run_migrations.sh
+docker-compose down && docker-compose up —build -d
+```
+
 ## Project Structure
 
 - `/backend/cmd`: Main applications for this project.
