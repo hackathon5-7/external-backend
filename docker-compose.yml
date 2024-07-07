@@ -42,19 +42,6 @@ services:
       - hackaton_hacknet
       - hackaton_local
 
-  backend_python:
-    build: ./internal-backend-ml
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./internal-backend-ml/internal:/app/internal
-      - ./internal-backend-ml/config.yaml:/app/config.yaml
-    environment:
-      CONFIG_PATH: /app/config.yaml
-    networks:
-      - hackaton_hacknet
-    restart: always
-
 networks:
   hackaton_hacknet:
     external: true
