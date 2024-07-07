@@ -12,20 +12,20 @@ import (
 
 type RecomendationOutput struct {
 	SectorId int                `json:"sector_id"`
-	Value    int                `json:"value" db:"value"`
+	Value    float64            `json:"value" db:"value"`
 	Points   []models.Billboard `json:"points"`
 }
 
 type MLRequestOutput struct {
 	Gender              string `json:"gender"`
-	AgeFrom             int    `json:"age_from"`
-	AgeTo               int    `json:"age_to"`
+	AgeFrom             int    `json:"ageFrom"`
+	AgeTo               int    `json:"ageTo"`
 	Income              string `json:"income"`
-	CountPointOnSegment []int  `json:"count_point_on_segment"`
+	CountPointOnSegment []int  `json:"tch"`
 }
 
 type MLRequestInput struct {
-	Value int `json:"value" binding:"required"`
+	Value float64 `json:"value" binding:"required"`
 }
 
 type RecomendationInput struct {
@@ -41,9 +41,9 @@ type Filters struct {
 }
 
 type IncomeInputHandler struct {
-	A bool `json:"a" binding:"required"`
-	B bool `json:"b" binding:"required"`
-	C bool `json:"c" binding:"required"`
+	A bool `json:"a"`
+	B bool `json:"b"`
+	C bool `json:"c"`
 }
 
 type MLRequestService struct {
@@ -139,10 +139,14 @@ func (s MLRequestService) GetRecomendation(input RecomendationInput) ([]Recomend
 			return nil, err
 		}
 
+		if bilboards == nil {
+			continue
+		}
+
 		// Add the sector ID, the value from the response, and the retrieved billboards to the RecomendationOutput struct
 		data = append(data, RecomendationOutput{
 			SectorId: i,
-			Value:    0,
+			Value:    value.Value,
 			Points:   bilboards,
 		})
 
