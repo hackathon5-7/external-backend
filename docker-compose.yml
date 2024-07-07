@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+    ports:
+      - 5432:5432
+    networks:
+      - hackaton_hacknet
+      - hackaton_local
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    networks:
+      - hackaton_hacknet
+      - hackaton_local
+
+  backend:
+    build: ./
+    environment:
+      - CONFIG_PATH=${CONFIG_PATH}
+      - SECTORS_PATH=${SECTORS_PATH}
+      - SECTORS_PATH_FRONT=${SECTORS_PATH_FRONT}
+      - TRAIN_DATA_PATH=${TRAIN_DATA_PATH}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+    command: ./scripts/wait-for-postgres.sh db ./backeng-golang
+    depends_on:
+      - db
+      - redis
+    ports:
+      - 8081:8081
+    networks:
+      - hackaton_hacknet
+      - hackaton_local
+
+networks:
+  hackaton_hacknet:
+    external: true
+  hackaton_local:
+    driver: bridge
