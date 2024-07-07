@@ -11,14 +11,14 @@ services:
     ports:
       - 5432:5432
     networks:
-      - hacknet
+      - hackaton_hacknet
 
   redis:
     image: redis:alpine
     ports:
       - 6379:6379
     networks:
-      - hacknet
+      - hackaton_hacknet
 
   backend:
     build: ./
@@ -37,7 +37,8 @@ services:
     ports:
       - 8081:8081
     networks:
-      - hacknet
+      - hackaton_hacknet
 
 networks:
-  hacknet:
+  hackaton_hacknet:
+    driver: bridge

@@ -49,7 +49,6 @@ func (s SectorParserJSONService) GetSectors(pathFile string) error {
 	return nil
 }
 
-
 // GetSectorsArray reads a JSON file from the specified path and parses it
 // to extract the sectors. It returns the parsed data as a slice of models.Sector.
 //

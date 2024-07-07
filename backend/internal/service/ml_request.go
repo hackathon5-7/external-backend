@@ -37,6 +37,10 @@ func (s MLRequestService) GetRecomendation() ([]RecomendationOutput, error) {
 			return nil, err
 		}
 
+		if billboard == nil {
+			continue
+		}
+
 		data = append(data, RecomendationOutput{
 			SectorId: i,
 			Points:   billboard,
